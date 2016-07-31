@@ -20,9 +20,11 @@ def parse(program):
 
 
 def _run(tree, memory, ptr):
+    output = ''
     for ch in tree:
         if isinstance(ch, list):
-            ptr = _run(ch, memory, ptr)
+            ptr, a = _run(ch, memory, ptr)
+            output += a
         elif ch == '+':
             memory[ptr] += 1
         elif ch == '-':
@@ -34,7 +36,7 @@ def _run(tree, memory, ptr):
         elif ch == '<':
             ptr -= 1
         elif ch == '.':
-            sys.stdout.write(chr(memory[ptr]))
+            output += chr(memory[ptr])
         elif ch == ',':
             try:
                 memory[ptr] = ord(sys.stdin.read(1))
@@ -44,9 +46,10 @@ def _run(tree, memory, ptr):
             if memory[ptr] != 0:
                 return _run(tree, memory, ptr)
             else:
-                return ptr
+                return ptr, output
+    return 0, output
 
 
 def run(tree):
-    return _run(tree, [0], 0)
+    return _run(tree, [0], 0)[1]
 
