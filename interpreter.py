@@ -1,4 +1,5 @@
 import sys
+import re
 
 def _generate_tree(program, ptr):
     tree = []
@@ -16,6 +17,7 @@ def _generate_tree(program, ptr):
 
 
 def parse(program):
+    program = re.sub(r'[^\.,\+\-><\[\]]', '', program)
     return _generate_tree(program, 0)[0]
 
 
